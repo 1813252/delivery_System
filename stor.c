@@ -78,8 +78,7 @@ int str_createSystem(char *filepath){
 			
 				line++;
 		}
-		
-		
+			
 		fclose(fp);
 		
 		fp= fopen(filepath,"r");		
@@ -204,6 +203,28 @@ static void initStorage(int x, int y) {
 	
 	free(deliverySystem[x][y].context); ///free memory	
 	
+}
+
+//find my package from the storage
+//print all the cells (x,y) which has my package
+//int nBuilding, int nRoom : my building/room numbers
+//return : number of packages that the storage system has
+int str_findStorage(int nBuilding, int nRoom) {
+	
+	
+	int cnt;
+	int x,y;
+	
+		for (x=0;x<4;x++)
+		{
+			for(y=0;y<6;y++)
+			
+			if(deliverySystem[x][y].building==nBuilding && deliverySystem[x][y].room==nRoom)
+			printf("Find a package in (%i,%i)\n",x,y);
+			cnt++;
+		}
+		
+	return cnt;
 }
 
 
@@ -387,9 +408,40 @@ int main(int argc, char *argv[]) {
 			  //4-4. command analysis : print the storage status
 			case 3:
 				str_printStorageStatus();
-				break;}
+				break;
+				
+				//4-4. command analysis : find my package from the storage
+			case 4:
+                //input the destination (my address)
+				printf(" - building # : ");
+				nBuilding = getIntegerInput();
+				printf(" - room # : ");
+				nRoom = getIntegerInput();
+                
+				//check whether the address is valid or not
+				if (buildingValidityCheck(nBuilding, nRoom) != 0)
+				{
+					printf(" -----------> Invalid building/room number (%i,%i)\n", nBuilding, nRoom);
+					continue;
+				}
+				
+                //try to find packages destinated to the address
+				if (str_findStorage(nBuilding, nRoom) == 0)
+				{
+					printf(" -----------> Failed to find my package!\n");
+				}
+				
+				break;
+				
+			default:
+				printf(" -----------> Wrong cmd!! input again!..\n");
+				break;
+		}
+		
 				
 		} while (cmd!=0);
 		
-return 0;
+		str_freeSystem();
+	
+		return 0;
 }
