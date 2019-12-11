@@ -6,9 +6,8 @@
 #define N_BUILDING				10
 #define N_FLOOR					10
 #define N_ROOM					10
-\
 
-#define STORAGE_FILEPATH 	"storage.txt"
+#define STORAGE_FILEPATH 	"storage2.txt"
 
 typedef struct {
 	int building;
@@ -138,9 +137,6 @@ int str_pushToStorage(int x, int y, int nBuilding, int nRoom, char msg[MAX_MSG_S
 
 }
 
-
-
-
 //free the memory of the deliverySystem 
 void str_freeSystem(void) {
 	
@@ -158,18 +154,6 @@ void str_freeSystem(void) {
 }
 
 
-
-//initialize the storage
-//set all the member variable as an initial value
-//and allocate memory to the context pointer
-//int x, int y : cell coordinate to be initialized
-static void initStorage(int x, int y) {
-	
-	
-	
-	
-}
-
 //check if the input cell (x,y) is valid and whether it is occupied or not
 int str_checkStorage(int x, int y) {
 	
@@ -186,6 +170,76 @@ int str_checkStorage(int x, int y) {
 	return deliverySystem[x][y].cnt;	
 }
 
+
+//get password input and check if it is correct for the cell (x,y)
+//int x, int y : cell for password check
+//return : 0 - password is matching, -1 - password is not matching
+static int inputPasswd(int x, int y) {
+	
+	char input_passwd[PASSWD_LEN+1];
+	printf("input password for (%i,%i) storage : \n",x,y);
+	scanf("%s",input_passwd);
+	
+	if (strcmp(input_passwd,deliverySystem[x][y].passwd)==0) //password is matching 
+	{
+		return 0;
+	}
+	
+	else //not matching 
+	
+	return -1;
+	
+}
+
+//initialize the storage
+//set all the member variable as an initial value
+//int x, int y : cell coordinate to be initialized
+static void initStorage(int x, int y) {
+	
+	
+	deliverySystem[x][y].building=NULL;
+	deliverySystem[x][y].room=NULL;
+	deliverySystem[x][y].cnt = 0;
+	deliverySystem[x][y].passwd[PASSWD_LEN+1]=NULL;
+	
+	free(deliverySystem[x][y].context); ///free memory	
+	
+}
+
+
+
+
+//extract the package context with password checking
+//after password checking, then put the msg string on the screen and re-initialize the storage
+//int x, int y : coordinate of the cell to extract
+//return : 0 - successfully extracted, -1 = failed to extract
+int str_extractStorage(int x, int y) {
+	
+	
+	int check_passwd=inputPasswd(x,y);
+	
+	if (check_passwd!=0)
+	{
+		printf("password is wrong!!\n");
+		return -1;
+	}
+	
+	else if (check_passwd==0)
+	{
+		
+			
+		printf("---------->extracting the storage (%i,%i)...",x,y);
+		printf("\n------------------------------------------------\n");
+		printf("<<<<<<<<<<<<<<< : %s>>>>>>>>>>>>>>>>>>>",deliverySystem[x][y].context);
+		printf("\n------------------------------------------------\n");
+		
+		initStorage(x,y);
+				
+		return 0;
+	}
+	
+	
+}
 
 //get an integer value from keyboard
 int getIntegerInput(void)
