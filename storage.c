@@ -102,9 +102,9 @@ int str_createSystem(char *filepath){
 		}
 			
 	
-		for(i=0;i<4;i++)
+		for(i=0;i<systemSize[0];i++)
 		{
-			for(j=0;j<6;j++)
+			for(j=0;j<systemSize[1];j++)
 			deliverySystem[i][j].cnt=0; //deliverySystem[i][j].cnt=0 으로 초기화하여 화면에 trash 값을 띄우지 않도록 합니다//
 		}
 		
