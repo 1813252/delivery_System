@@ -66,67 +66,67 @@ int str_createSystem(char *filepath){
 	
 	int i,j=0;
  	
- 	fp= fopen(filepath,"r");	//ÆÄÀÏ ¿ÀÇÂ  
+ 	fp= fopen(filepath,"r");	//íŒŒì¼ ì˜¤í”ˆ  
 			
 		
-		int line=0; //ÅØ½ºÆ® ÆÄÀÏ ¸îÁÙÀÎÁö ¼¼º¸±â  
+		int line=0; //í…ìŠ¤íŠ¸ íŒŒì¼ ëª‡ì¤„ì¸ì§€ ì„¸ë³´ê¸°  
 		char c;      
 		
 		if (fp==NULL)
 		{
-			return -1; //ÆÄÀÏÀÌ ¾È ¿­¸®¸é °Å±â¼­ ³¡  
+			return -1; //íŒŒì¼ì´ ì•ˆ ì—´ë¦¬ë©´ ê±°ê¸°ì„œ ë  
 			
 		}
 		
-		while ((c=fgetc(fp)) !=EOF) // ÆÄÀÏ  ³¡±îÁö ÀĞ±â  
+		while ((c=fgetc(fp)) !=EOF) // íŒŒì¼  ëê¹Œì§€ ì½ê¸°  
 		{
-			if (c=='\n') //ÁÙ ¹Ù²ğ ¶§ ¸¶´Ù  
+			if (c=='\n') //ì¤„ ë°”ë€” ë•Œ ë§ˆë‹¤  
 			
 				line++; //line ++ 
 		}
 			
-		fclose(fp); //´Ù ÀĞ¾úÀ¸´Ï ´İ¾ÆÁÜ  
+		fclose(fp); //ë‹¤ ì½ì—ˆìœ¼ë‹ˆ ë‹«ì•„ì¤Œ  
 		
-		fp= fopen(filepath,"r");	 //´Ù½Ã ¿­¾î¿ä  
+		fp= fopen(filepath,"r");	 //ë‹¤ì‹œ ì—´ì–´ìš”  
 		
-		fscanf(fp, "%d %d %s", &systemSize[0], &systemSize[1], masterPassword); // Çà,¿­,¸¶½ºÅÍ ºñ¹Ğ¹øÈ£ ¹Ş±â  
+		fscanf(fp, "%d %d %s", &systemSize[0], &systemSize[1], masterPassword); // í–‰,ì—´,ë§ˆìŠ¤í„° ë¹„ë°€ë²ˆí˜¸ ë°›ê¸°  
  	
  	
-		deliverySystem = (storage_t**)malloc(sizeof(storage_t*)*systemSize[0]);  //ÀÌÁßÆ÷ÀÎÅÍ deliverySystem ÀÌ deliverySystem[i] ¸¦ °¡¸£Å°µµ·Ï ÇÔ// 
+		deliverySystem = (storage_t**)malloc(sizeof(storage_t*)*systemSize[0]);  //ì´ì¤‘í¬ì¸í„° deliverySystem ì´ deliverySystem[i] ë¥¼ ê°€ë¥´í‚¤ë„ë¡ í•¨// 
 
 		for(i=0;i<systemSize[0];i++)
 		{
 			
-			deliverySystem[i] = (storage_t*)malloc(sizeof(storage_t)*systemSize[1]); //deliverySystem[i]´Â deliverySystem[i][0]À» °¡¸£Åµ´Ï´Ù//
+			deliverySystem[i] = (storage_t*)malloc(sizeof(storage_t)*systemSize[1]); //deliverySystem[i]ëŠ” deliverySystem[i][0]ì„ ê°€ë¥´í‚µë‹ˆë‹¤//
 		
 		}
 			
 	
-		for(i=0;i<4;i++)
+		for(i=0;i<systemSize[0];i++)
 		{
-			for(j=0;j<6;j++)
-			deliverySystem[i][j].cnt=0; //deliverySystem[i][j].cnt=0 À¸·Î ÃÊ±âÈ­ÇÏ¿© È­¸é¿¡ trash °ªÀ» ¶ç¿ìÁö ¾Êµµ·Ï ÇÕ´Ï´Ù//
+			for(j=0;j<systemSize[1];j++)
+			deliverySystem[i][j].cnt=0; //deliverySystem[i][j].cnt=0 ìœ¼ë¡œ ì´ˆê¸°í™”í•˜ì—¬ í™”ë©´ì— trash ê°’ì„ ë„ìš°ì§€ ì•Šë„ë¡ í•©ë‹ˆë‹¤//
 		}
 		
 		
 		int k; 
 			
-		for(k=2;k<line;k++) //3¹øÂ° ÁÙºÎÅÍ ¸¶Áö¸· ÁÙ±îÁö ÀĞ½À´Ï´Ù
+		for(k=2;k<line;k++) //3ë²ˆì§¸ ì¤„ë¶€í„° ë§ˆì§€ë§‰ ì¤„ê¹Œì§€ ì½ìŠµë‹ˆë‹¤
 		{
-			fscanf(fp,"%i %i",&i ,&j); //¾Õ¿¡ µÎ Á¤¼ö´Â i, j °ª¿¡ ÀúÀåÇÕ´Ï´Ù
-			deliverySystem[i][j].context= (char*)malloc(sizeof(char)*100); //ÀÏ´Ü 100±ÛÀÚ·Î ¸Ş¸ğ¸® ÇÒ´çÀ» ÇØÁİ´Ï´Ù//
+			fscanf(fp,"%i %i",&i ,&j); //ì•ì— ë‘ ì •ìˆ˜ëŠ” i, j ê°’ì— ì €ì¥í•©ë‹ˆë‹¤
+			deliverySystem[i][j].context= (char*)malloc(sizeof(char)*100); //ì¼ë‹¨ 100ê¸€ìë¡œ ë©”ëª¨ë¦¬ í• ë‹¹ì„ í•´ì¤ë‹ˆë‹¤//
 			fscanf(fp," %i %i %s %s", &deliverySystem[i][j].building, &deliverySystem[i][j].room, deliverySystem[i][j].passwd, deliverySystem[i][j].context);
-			// passwd¿Í context´Â °¢°¢ ¹è¿­, Æ÷ÀÎÅÍ ÀÌ¹Ç·Î ÁÖ¼Ò¿¬»êÀÚ &¸¦ »ç¿ëÇÏÁö ¾Ê½À´Ï´Ù//
+			// passwdì™€ contextëŠ” ê°ê° ë°°ì—´, í¬ì¸í„° ì´ë¯€ë¡œ ì£¼ì†Œì—°ì‚°ì &ë¥¼ ì‚¬ìš©í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤//
 			
-			deliverySystem[i][j].cnt++; //cnt=1À» ¸¸µé¾îÁÖ¾î ÇÁ·Î±×·¥ È­¸é¿¡ ¶ç¿ó´Ï´Ù//
-			storedCnt++;//ÀúÀåµÈ ÅÃ¹è¼ö°¡ ++ µË´Ï´Ù.
+			deliverySystem[i][j].cnt++; //cnt=1ì„ ë§Œë“¤ì–´ì£¼ì–´ í”„ë¡œê·¸ë¨ í™”ë©´ì— ë„ì›ë‹ˆë‹¤//
+			storedCnt++;//ì €ì¥ëœ íƒë°°ìˆ˜ê°€ ++ ë©ë‹ˆë‹¤.
 		}
 		
 		
-		fclose(fp); //ÆÄÀÏÀ» ´İ½À´Ï´Ù.
+		fclose(fp); //íŒŒì¼ì„ ë‹«ìŠµë‹ˆë‹¤.
 
 		
-	return 0; //½Ã½ºÅÛÀ» Àß ¸¸µé¾úÀ¸¸é 0À» ¹İÈ¯ÇÕ´Ï´Ù 
+	return 0; //ì‹œìŠ¤í…œì„ ì˜ ë§Œë“¤ì—ˆìœ¼ë©´ 0ì„ ë°˜í™˜í•©ë‹ˆë‹¤ 
 	
 }
 
@@ -140,7 +140,7 @@ int str_createSystem(char *filepath){
 int str_pushToStorage(int x, int y, int nBuilding, int nRoom, char msg[MAX_MSG_SIZE+1], char passwd[PASSWD_LEN+1]) {
 	
 
-	deliverySystem[x][y].context= (char*)malloc(sizeof(char)*strlen(msg)); //¹ŞÀº message¸¸Å­ context Æ÷ÀÎÅÍ¿¡ ¸Ş¸ğ¸®¸¦ ÇÒ´çÇØÁİ´Ï´Ù// 
+	deliverySystem[x][y].context= (char*)malloc(sizeof(char)*strlen(msg)); //ë°›ì€ messageë§Œí¼ context í¬ì¸í„°ì— ë©”ëª¨ë¦¬ë¥¼ í• ë‹¹í•´ì¤ë‹ˆë‹¤// 
 	
 	deliverySystem[x][y].building=nBuilding; 
 	deliverySystem[x][y].room = nRoom;
@@ -150,12 +150,12 @@ int str_pushToStorage(int x, int y, int nBuilding, int nRoom, char msg[MAX_MSG_S
 	
 	if(deliverySystem[x][y].cnt!=1)
 	{
-		return -1; //ÅÃ¹è°¡ º¸°üÇÔ¿¡ ¾Èµé¾î°¬À¸¸é -1À» return ÇÕ´Ï´Ù// 
+		return -1; //íƒë°°ê°€ ë³´ê´€í•¨ì— ì•ˆë“¤ì–´ê°”ìœ¼ë©´ -1ì„ return í•©ë‹ˆë‹¤// 
 	}
 	
-	else //¼º°øÇÏ¸é  
-	storedCnt++; //ÅÃ¹è¼ö ++ 
-	str_backupSystem(STORAGE_FILEPATH);//ÅØ½ºÆ®ÆÄÀÏ¿¡µµ ½áÁİ´Ï´Ù// 
+	else //ì„±ê³µí•˜ë©´  
+	storedCnt++; //íƒë°°ìˆ˜ ++ 
+	str_backupSystem(STORAGE_FILEPATH);//í…ìŠ¤íŠ¸íŒŒì¼ì—ë„ ì¨ì¤ë‹ˆë‹¤// 
 	
 	return 0; 
 
@@ -173,20 +173,20 @@ int str_backupSystem(char* filepath) {
 	
 	FILE *fp;
 	int i,j;
-	fp=fopen(filepath,"w"); //¾²±â¸ğµå·Î ¿­¾îÁİ´Ï´Ù(»õ·Î ½áÁİ´Ï´Ù)// 
+	fp=fopen(filepath,"w"); //ì“°ê¸°ëª¨ë“œë¡œ ì—´ì–´ì¤ë‹ˆë‹¤(ìƒˆë¡œ ì¨ì¤ë‹ˆë‹¤)// 
 	
 	fprintf(fp,"%d %d\n%s\n", systemSize[0], systemSize[1], masterPassword); 
 		
 	for (i=0;i<systemSize[0];i++)
 	{
 		for(j=0;j<systemSize[1];j++)
-		if (deliverySystem[i][j].cnt==1) //deliverySystem[i][j].cnt==1ÀÎ °æ¿ì¸¸ »õ·Î ½áÁİ´Ï´Ù// 
+		if (deliverySystem[i][j].cnt==1) //deliverySystem[i][j].cnt==1ì¸ ê²½ìš°ë§Œ ìƒˆë¡œ ì¨ì¤ë‹ˆë‹¤// 
 		{	
 			fprintf(fp,"%i %i %i %i %s %s\n",i,j,deliverySystem[i][j].building, deliverySystem[i][j].room, deliverySystem[i][j].passwd, deliverySystem[i][j].context);		
 		}
 	}
 
-	fclose(fp); //´İ¾ÆÁÖ´Â°É ÀØÁö¸¿´Ï´Ù// 
+	fclose(fp); //ë‹«ì•„ì£¼ëŠ”ê±¸ ìŠì§€ë§™ë‹ˆë‹¤// 
 	
 	
 	if(fp==NULL)
@@ -224,7 +224,7 @@ int str_checkStorage(int x, int y) {
 //set all the member variable as an initial value
 //int x, int y : cell coordinate to be initialized
 
-static void initStorage(int x, int y) { //extractStorage ÇÔ¼ö¸¦ ¸¸µé¶§ »ç¿ëÇÒ °ÍÀÔ´Ï´Ù 1// 
+static void initStorage(int x, int y) { //extractStorage í•¨ìˆ˜ë¥¼ ë§Œë“¤ë•Œ ì‚¬ìš©í•  ê²ƒì…ë‹ˆë‹¤ 1// 
 	
 	
 	deliverySystem[x][y].building=NULL; 
@@ -239,23 +239,23 @@ static void initStorage(int x, int y) { //extractStorage ÇÔ¼ö¸¦ ¸¸µé¶§ »ç¿ëÇÒ °Í
 //int x, int y : cell for password check
 //return : 0 - password is matching, -1 - password is not matching
 
-static int inputPasswd(int x, int y) { //extractStorage ÇÔ¼ö¸¦ ¸¸µé¶§ »ç¿ëÇÒ °ÍÀÔ´Ï´Ù 2// 
+static int inputPasswd(int x, int y) { //extractStorage í•¨ìˆ˜ë¥¼ ë§Œë“¤ë•Œ ì‚¬ìš©í•  ê²ƒì…ë‹ˆë‹¤ 2// 
 	
-	char input_passwd[PASSWD_LEN+1]; //¹®ÀÚ¿­À» ¹Ş½À´Ï´Ù// 
+	char input_passwd[PASSWD_LEN+1]; //ë¬¸ìì—´ì„ ë°›ìŠµë‹ˆë‹¤// 
 	printf("input password for (%i,%i) storage : ",x,y);
 	scanf("%s",input_passwd); 
 	
-	if (strcmp(input_passwd,deliverySystem[x][y].passwd)==0) //ºñ¹Ğ¹øÈ£°¡ ¸ÂÀ¸¸é// 
+	if (strcmp(input_passwd,deliverySystem[x][y].passwd)==0) //ë¹„ë°€ë²ˆí˜¸ê°€ ë§ìœ¼ë©´// 
 	{
 		return 0; 
 	}
 	
-	else if (strcmp(input_passwd,masterPassword)==0) //ºñ¹Ğ¹øÈ£°¡ ¸¶½ºÅÍºñ¹Ğ¹øÈ£¸é// 
+	else if (strcmp(input_passwd,masterPassword)==0) //ë¹„ë°€ë²ˆí˜¸ê°€ ë§ˆìŠ¤í„°ë¹„ë°€ë²ˆí˜¸ë©´// 
 	{
 		return 0;
 	}
 	
-	else //Æ²¸®¸é//
+	else //í‹€ë¦¬ë©´//
 	 
 	return -1;
 	
@@ -269,15 +269,15 @@ static int inputPasswd(int x, int y) { //extractStorage ÇÔ¼ö¸¦ ¸¸µé¶§ »ç¿ëÇÒ °ÍÀ
 int str_extractStorage(int x, int y) {
 	
 	
-	int check_passwd=inputPasswd(x,y); //¾Æ±î¸¸µç ºñ¹Ğ¹øÈ£ È®ÀÎÇØÁÖ´Â ÇÔ¼ö¸¦ ¸¸µì´Ï´Ù// 
+	int check_passwd=inputPasswd(x,y); //ì•„ê¹Œë§Œë“  ë¹„ë°€ë²ˆí˜¸ í™•ì¸í•´ì£¼ëŠ” í•¨ìˆ˜ë¥¼ ë§Œë“­ë‹ˆë‹¤// 
 	
-	if (check_passwd!=0) //Æ²¸± ¶§// 
+	if (check_passwd!=0) //í‹€ë¦´ ë•Œ// 
 	{
 		printf("password is wrong!!\n");
 		return -1;
 	}
 	
-	else if (check_passwd==0) //¸Â°Å³ª ¸¶½ºÅÍºñ¹Ğ¹øÈ£ ÀÏ ¶§// 
+	else if (check_passwd==0) //ë§ê±°ë‚˜ ë§ˆìŠ¤í„°ë¹„ë°€ë²ˆí˜¸ ì¼ ë•Œ// 
 	{
 		
 			
@@ -286,13 +286,13 @@ int str_extractStorage(int x, int y) {
 		printf("<<<<<<<<<<<<<<< : %s>>>>>>>>>>>>>>>>>>>",deliverySystem[x][y].context);
 		printf("\n------------------------------------------------\n");
 		
-		initStorage(x,y); //º¸°üÇÔÀ» ºñ¿öÁÜ// 
-		str_backupSystem(STORAGE_FILEPATH); //ÅØ½ºÆ®ÆÄÀÏ¿¡µµ ½áÁÜ// 
-		storedCnt--; //º¸°üµÈ ÅÃ¹è -1// 
+		initStorage(x,y); //ë³´ê´€í•¨ì„ ë¹„ì›Œì¤Œ// 
+		str_backupSystem(STORAGE_FILEPATH); //í…ìŠ¤íŠ¸íŒŒì¼ì—ë„ ì¨ì¤Œ// 
+		storedCnt--; //ë³´ê´€ëœ íƒë°° -1// 
 					
 	}
 	
-	if (deliverySystem[x][y].cnt!=0) //º¸°üÇÔ ¾Èºñ¿öÁ³À¸¸é// 
+	if (deliverySystem[x][y].cnt!=0) //ë³´ê´€í•¨ ì•ˆë¹„ì›Œì¡Œìœ¼ë©´// 
 	{
 		return -1;
 	}
@@ -314,14 +314,14 @@ int str_findStorage(int nBuilding, int nRoom) {
 	
 		for (x=0;x<systemSize[0];x++)
 		{
-			for(y=0;y<systemSize[1];y++) //¸ğµç º¸°üÇÔÀ» ´Ù È®ÀÎÇÕ´Ï´Ù// 
+			for(y=0;y<systemSize[1];y++) //ëª¨ë“  ë³´ê´€í•¨ì„ ë‹¤ í™•ì¸í•©ë‹ˆë‹¤// 
 			
-			if(deliverySystem[x][y].building==nBuilding && deliverySystem[x][y].room==nRoom) //Ã£½À´Ï´Ù// 
-			printf("Find a package in (%i,%i)\n",x,y); //¾Ë·ÁÁİ´Ï´Ù// 
+			if(deliverySystem[x][y].building==nBuilding && deliverySystem[x][y].room==nRoom) //ì°¾ìŠµë‹ˆë‹¤// 
+			printf("Find a package in (%i,%i)\n",x,y); //ì•Œë ¤ì¤ë‹ˆë‹¤// 
 			cnt++;
 		}
 		
-	return cnt; //³» ÅÃ¹è°¡  ¾øÀ¸¸é cnt=0// 
+	return cnt; //ë‚´ íƒë°°ê°€  ì—†ìœ¼ë©´ cnt=0// 
 }
 
 
@@ -337,7 +337,7 @@ void str_freeSystem(void) {
 			
 	}
 		
-		free(deliverySystem); //¸¶Áö¸·¿¡ deliverySystem ¿¡ ÇÒ´çÇØÁá´ø ¸Ş¸ğ¸®¸¦ ÇØÁ¦ÇØÁİ´Ï´Ù// 
+		free(deliverySystem); //ë§ˆì§€ë§‰ì— deliverySystem ì— í• ë‹¹í•´ì¤¬ë˜ ë©”ëª¨ë¦¬ë¥¼ í•´ì œí•´ì¤ë‹ˆë‹¤// 
 	
 }
 
